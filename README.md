@@ -3,15 +3,15 @@ a demo shows that how to use mpp on linux
 
 project architecture
 
-├── build   --build directory
-├── CMakeLists.txt      --cmake script
-├── main.cpp            --main program
-├── mpp                 --mpp abstract interface
-├── README.md           --doc
-├── res                 --res directory
-├── rkdrm               --drm interface(abount display)
-├── rkrga               --rga interface(about format and resolution conversion)
-└── thread              --thread abstract interface(use posix)
+├── build   --build directory  
+├── CMakeLists.txt      --cmake script  
+├── main.cpp            --main program  
+├── mpp                 --mpp abstract interface  
+├── README.md           --doc  
+├── res                 --res directory  
+├── rkdrm               --drm interface(abount display)  
+├── rkrga               --rga interface(about format and resolution conversion)  
+└── thread              --thread abstract interface(use posix)  
 
 ## make & test
 first please modify CMakeLists.txt to specified c and c++ compiler.
