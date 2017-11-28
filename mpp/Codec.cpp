@@ -82,6 +82,8 @@ int Codec::init(const char *file_input,
     mDisPlay = display;
     srcW = src_w;
     srcH = src_h;
+    dstW = src_w;
+    dstH = src_h;
 
     mFin = fopen(file_input, "rb");
     if (!mFin) {
@@ -126,14 +128,14 @@ int Codec::init(const char *file_input,
         cxx_log("failed to exec mpp_init.\n");
         return -7;
     }
-#if 0
+
     mRGA = new RGA();
-    ret = mRGA->init(srcW, srcH, dstW, dstH);
+    ret = mRGA->init(srcW, srcH, srcW, srcH);
     if (ret < 0) {
         cxx_log("failed to exec mRGA->init %d.\n", ret);
         return -8;
     }
-#endif
+
     mDev = create_sp_dev();
     if (!mDev) {
         cxx_log("failed to exec create_sp_dev.\n");
@@ -358,14 +360,20 @@ int Codec::decode_one_pkt(char *buf, int size, MppFrame *srcFrm, MppFrame *dstFr
                     } else {
                         cxx_log("decode_get_frame ID:%d get srcFrm %d.\n", mID, mFrmCnt++);
                         if (mDisPlay) {
-                            drm_show_frmae(*srcFrm);
-                            if (mFout) {
-                                /*
-                                 * note that write file will leads to IO block
-                                 * so if you want to test frame rate,don't wirte
-                                 * it.
-                                 */
-                                //dump_mpp_frame_to_file(*srcFrm, mFout);
+                            ret = mRGA->swscale(mpp_buffer_get_fd(mpp_frame_get_buffer(*srcFrm)),
+                                                mpp_buffer_get_fd(mpp_frame_get_buffer(*dstFrm)));
+                            if (ret < 0) {
+                                cxx_log("failed to exec mRGA->swscale ret:%d.\n", ret);
+                            } else {
+                                drm_show_frmae(*dstFrm);
+                                if (mFout) {
+                                    /*
+                                     * note that write file will leads to IO block
+                                     * so if you want to test frame rate,don't wirte
+                                     * it.
+                                     */
+                                    //dump_mpp_frame_to_file(*srcFrm, mFout);
+                                }
                             }
                         }
                     }

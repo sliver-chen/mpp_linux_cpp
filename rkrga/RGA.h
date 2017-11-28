@@ -11,6 +11,7 @@ extern "C" {
 #include <fcntl.h>
 #include <errno.h>
 #include <stdio.h>
+#include <stdint.h>
 #include <string.h>
 #include <sys/ioctl.h>
 #include <linux/videodev2.h>
@@ -31,6 +32,7 @@ private:
     int open_dev_strm();
     int dst_buf_map();
     int src_buf_map();
+    int set_img_rotation(unsigned degree);
 
     int mFd;
     int mSrcW;

@@ -73,11 +73,7 @@ int RGA::set_dst_fmt() {
     fmt.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
     fmt.fmt.pix.width  = RGA_ALIGN(mDstW, 16);
     fmt.fmt.pix.height = RGA_ALIGN(mDstH, 16);
-#ifdef USE_SDL
-    fmt.fmt.pix.pixelformat = V4L2_PIX_FMT_YUV420;
-#else
     fmt.fmt.pix.pixelformat = V4L2_PIX_FMT_NV12;
-#endif
     fmt.fmt.pix.field = V4L2_FIELD_ANY;
 
     ret = ioctl(mFd, VIDIOC_S_FMT, &fmt);
@@ -185,6 +181,20 @@ int RGA::dst_buf_map() {
     return 0;
 }
 
+int RGA::set_img_rotation(unsigned degree) {
+    struct v4l2_control ctrl = {0};
+    int ret = 0;
+
+    ctrl.id = V4L2_CID_ROTATE;
+    ctrl.value = degree;
+    ret = ioctl(mFd, VIDIOC_S_CTRL, &ctrl);
+    if (ret != 0) {
+        rga_log("failed to ioctl VIDIOC_S_CTRL.\n");
+        return -1;
+    }
+    return 0;
+}
+
 int RGA::init(int srcW, int srcH, int dstW, int dstH) {
     int ret = 0;
 
@@ -217,23 +227,28 @@ int RGA::init(int srcW, int srcH, int dstW, int dstH) {
         return -4;
     }
 
+    ret = set_img_rotation(90);
+    if (ret < 0) {
+        rga_log("failed to exec set_img_rotation %d.\n", ret);
+        return -5;
+    }
+
     ret = src_buf_map();
     if (ret < 0) {
         rga_log("failed to exec src_buf_map %d.\n", ret);
-        return -5;
+        return -6;
     }
 
     ret = dst_buf_map();
     if (ret < 0) {
         rga_log("failed to exec dst_buf_map %d.\n", ret);
-        return -6;
+        return -7;
     }
-
 
     ret = open_dev_strm();
     if (ret < 0) {
         rga_log("failed to exec open_dev_strm %d.\n", ret);
-        return -7;
+        return -8;
     }
 
     return 0;
