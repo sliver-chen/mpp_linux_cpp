@@ -1,5 +1,7 @@
 # MPP_LINUX_C++
 a demo shows that how to use mpp on linux
+if you want to using mpp on android,you can refer that  
+https://github.com/sliver-chen/mpp_android_demo
 
 project architecture
 
