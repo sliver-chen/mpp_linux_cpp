@@ -400,7 +400,12 @@ int Codec::decode_one_pkt(char *buf, int size, MppFrame *srcFrm, MppFrame *dstFr
 
         if (pkt_done)
             break;
-        usleep(50000);
+        /*
+         * why sleep here?
+         * mpp has a internal input pakcet list,if it is full, wait here 3ms to
+         * wait internal list isn't full.
+         */
+        usleep(3000);
     } while (1);
 
     return 0;
