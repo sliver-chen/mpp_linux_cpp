@@ -1,7 +1,6 @@
 # MPP_LINUX_C++
 a demo shows that how to use mpp on linux
-if you want to using mpp on android,you can refer that  
-https://github.com/sliver-chen/mpp_android_demo
+if you want to using mpp on android,please use MediaCodec directly(hardware codec has been embedded in MediaCodec).    
 
 project architecture
 
@@ -24,7 +23,7 @@ just do that
 cmake version >= 2.8 is required  
 root:cd build  
 root:make  
-root:./mpp_linux_demo  
+root:./mpp_linux_demo 
 
 ## how you will see
 on your device screen,you will see that local avc file
