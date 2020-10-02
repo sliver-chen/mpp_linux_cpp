@@ -1,6 +1,6 @@
-# MPP_LINUX_C++
-a demo shows that how to use mpp on linux
-if you want to using mpp on android,please use MediaCodec directly(hardware codec has been embedded in MediaCodec).    
+# MPP_LINUX_C++ - an amazing project
+The given demo presents, how to use mpp on linux
+if you want to use mpp on android,kindly use MediaCodec directly(hardware codec has been embedded in MediaCodec).    
 
 project architecture
 
@@ -15,7 +15,7 @@ project architecture
 └── thread              --thread abstract interface(use posix)  
 
 ## make & test
-first please modify CMakeLists.txt to specified c and c++ compiler.  
+firstly please modify CMakeLists.txt to specified c and c++ compiler.  
 just do that  
     set(CMAKE_C_COMPILER "enter your toolchain gcc path)  
     set(CMAKE_CXX_coMPILER "enter your toolchain g++ path")  
